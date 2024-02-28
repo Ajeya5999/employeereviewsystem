@@ -1,0 +1,11 @@
+.message-container {
+    position: absolute;
+    right: 20px;
+    top: 12vh;
+    z-index: 1;
+    background-color: var(--primary-theme-color);
+    padding: 10px;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 1s ease-in-out; 
+}
