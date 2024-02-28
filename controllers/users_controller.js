@@ -47,7 +47,7 @@ module.exports.signIn = function(req, res) { //for rendering sign in page
 
 module.exports.createSession = function(req, res){  //for signing in to the web app
     req.flash('info', "logged in");
-    return res.redirect('/dashboard');
+    return res.redirect('/dashboard/job_listings');
 };
 
 module.exports.destroySession = function(req, res){ //for loging out the created session

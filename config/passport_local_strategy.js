@@ -7,7 +7,7 @@ const checkUser = async function(req, email, password, done) { // function to ch
     let user;
     try {
         user = await User.findOne({email: email});
-        if(!user || await bcrypt.compare(user.password, password)) return done(null, false, { message: "invalid Username / Password"});
+        if(!user || !await bcrypt.compare(password, user.password)) return done(null, false, { message: "invalid Username / Password"});
         return done(null, user);
     } catch(err){
         return done(err);
