@@ -3,7 +3,8 @@
     right: 20px;
     top: 12vh;
     z-index: 1;
-    background-color: var(--primary-theme-color);
+    background-color: var(--secondary-theme-color);
+    color: var(--primary-theme-color);
     padding: 10px;
     font-size: 0.9rem;
     opacity: 0;

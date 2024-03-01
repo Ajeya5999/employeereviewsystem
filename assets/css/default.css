@@ -1,0 +1,15 @@
+/* General Properties */
+
+:root {
+    --primary-theme-color: white;
+    --secondary-theme-color: #212529;
+}
+
+body {
+    padding: 0;
+    position: relative;
+}
+
+main {
+    height: 70vh;
+}

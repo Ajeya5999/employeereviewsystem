@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     user_type: {
         type: String,
         required: true
+    },
+    auth_list: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User'
     }
 }, {
     timestamps: true

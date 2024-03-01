@@ -1,0 +1,14 @@
+.header-container {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+}
+
+.navbar-brand img {
+    background-color: var(--primary-theme-color);
+}
+
+.whitespace {
+    min-height: 5vh;
+}

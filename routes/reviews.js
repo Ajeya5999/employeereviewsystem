@@ -5,10 +5,10 @@ const router = express.Router();
 
 //Getting controllers
 
-const dashboardController = require('../controllers/dashboard_controller');
+const reviewsController = require('../controllers/reviews_controller');
 
 // Setting Dashboard Routes
 
-// router.get('/job_listings', dashboardController.listinngs); //Get Job Listings page
+router.post('/add-review', reviewsController.addReview); //Add the review
 
 module.exports = router;
