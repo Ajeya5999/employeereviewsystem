@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="/css/employees.css">
+
+<h1 class="page-title"> Employees List </h1>
+
+<table class="employee-list">
+    <tr>
+        <th> Name </th>
+        <th> Email </th>
+        <th> User Type </th>
+        <th> Employees for Review </th>
+    </tr>
+    <% for(employee of employee_list) { %>
+        <tr>
+            <td> <%= employee.name %> </td>
+            <td>
+                <a href="/dashboard/admin/curr_employee/<%= employee._id %>"> <%= employee.email %> </a>
+            </td>
+            <td> <%= employee.user_type %> </td>
+            <td>
+                <% if(employee.user_type == "Admin") { %>
+                    All
+                <% } else { %>
+                    <ul>
+                        <% for(auth_employee of employee.auth_list) { %>
+                            <li> <%= auth_employee.name %> (<%= auth_employee.email %>) </li>
+                        <% } %>
+                    </ul>
+                <% } %>
+            </td>
+        </tr>
+    <% } %>
+</table>

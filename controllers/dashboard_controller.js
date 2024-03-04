@@ -33,3 +33,14 @@ module.exports.home = async function(req, res) {
         auth_users: authList
     });
 };
+
+module.exports.showEmployees = async function(req, res) {
+    let employees = await User.find({})
+    .select('_id name email user_type auth_list')
+    .populate('auth_list', 'name email')
+    .exec();
+    return res.render('employees', {
+        title: "Employees",
+        employee_list: employees
+    });
+}

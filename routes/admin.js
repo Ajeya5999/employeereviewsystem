@@ -9,6 +9,6 @@ const dashboardController = require('../controllers/dashboard_controller');
 
 // Setting Dashboard Routes
 
-// router.get('/job_listings', dashboardController.listinngs); //Get Job Listings page
+router.get('/employees', dashboardController.showEmployees); //Get Employee list
 
 module.exports = router;
