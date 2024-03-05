@@ -1,22 +1,33 @@
 const User = require('../models/user'); //Getting user schema
 const Review = require('../models/review'); //Getting review schema
-const user = require('../models/user');
 
-module.exports.home = async function(req, res) {
+module.exports.home = async function(req, res) { //Get thee home page to write reviews
     try {
+
+        //Get all the reviews the current employee has written
+
         let reviewList = await Review.find({reviewer: req.user._id})
         .select('reviewee review')
-        .exec(), 
-        authList = (req.user.user_type == "Admin") ? 
+        .exec(),
+        
+        //Get the list of list of employees authorised to the current employee for writing reviews
+        
+        authList = (req.user.user_type == "Admin") ? //If the employee is an admin 
         await User.find({})
         .select('_id email')
-        .exec() : 
+        .exec() : // Get all employees
         await User.findById(req.user._id)
         .select('auth_list').
         populate('auth_list', 'email')
-        .exec();
+        .exec(); // Get employees only from the authorised list
+
+        //Revmove the logged in user from the list as a user should not be able to review themself
+
         let userIndex = authList.findIndex(employee => {return employee._id.equals(req.user._id);});
         if(userIndex !== -1) authList.splice(userIndex, 1);
+
+        //Pair written reviews with the authorized list, returns blank string if no review was written
+
         for(let iterator1 = 0; iterator1 < authList.length; iterator1++) {
             let currReview = "";
             for(let iterator2 = 0; iterator2 < reviewList.length; iterator2++) {
@@ -32,17 +43,21 @@ module.exports.home = async function(req, res) {
             }
             authList[iterator1] = newObject; 
         }
+
+        //Render the page
+
         return res.render('home', {
             title: "Home",
             auth_users: authList
         });
+
     } catch(err) {
         console.log('error', err);
         return res.redirect('/');
     }
 };
 
-module.exports.showEmployees = async function(req, res) {
+module.exports.showEmployees = async function(req, res) { //Show the list of employees
     try {
         let employees = await User.find({})
         .select('_id name email user_type auth_list')
@@ -58,20 +73,33 @@ module.exports.showEmployees = async function(req, res) {
     }
 }
 
-module.exports.showCurrentEmployee = async function(req, res) {
+module.exports.showCurrentEmployee = async function(req, res) { //Show the selected employuee detials
     let employeeId = req.params.id;
     try {
+
+        //Get the employee who needs to be edited
+
         let currEmployee = await User.findById(employeeId)
         .select('_id name email user_type auth_list')
-        .exec();
-        let employeesList = await User.find({})
+        .exec(),
+
+
+        //Get the list of all employees
+
+        employeesList = await User.find({})
         .select('_id name email')
         .exec(); 
+
+        //An employee cannot review themself and hence should not be authorised to do so
+
         employeesList.splice(
             employeesList.findIndex(
                 employee => {return employee._id.equals(employeeId);}
             ), 1
         );
+
+        //Getting the list of authorised and non authorised employees
+
         let authList = [], nonAuthList = [];
         if(currEmployee.user_type === "Admin") 
             authList = employeesList;
@@ -82,12 +110,16 @@ module.exports.showCurrentEmployee = async function(req, res) {
                 if(userIndex === -1) nonAuthList.push(employee);
             }
         }
+
+        //Render the page
+
         return res.render('curr_employee', {
             title: "Currenr Employee",
             employee: currEmployee,
             auth_list: authList,
             non_auth_list: nonAuthList
         });
+
     } catch(err) {
         console.log('error', err);
         return res.redirect('/');
