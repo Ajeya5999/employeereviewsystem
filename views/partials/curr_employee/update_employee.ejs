@@ -1,0 +1,43 @@
+<div class="container mt-5">
+    <h2>Update Employee Information</h2>
+    <form>
+    <!-- Current Information -->
+      <h4>Current Information</h4>
+      <div class="form-group">
+        <label for="currentName">Current Name:</label>
+        <input type="text" class="form-control" id="currentName" value="<%= employee.name %>" readonly>
+      </div>
+      <div class="form-group">
+        <label for="currentEmail">Current Email:</label>
+        <input type="email" class="form-control" id="currentEmail" value="<%= employee.email %>" readonly>
+      </div>
+      <div class="form-group">
+        <label for="currentType">Current Employee Type:</label>
+        <input type="text" class="form-control" id="currentType" value="<%= employee.user_type %>" readonly>
+      </div>
+
+      <!-- Update Information -->
+      <h4 class="mt-4">Update new information</h3>
+      <div class="form-group">
+        <label for="newName">New Name:</label>
+        <input type="text" class="form-control" id="newName" name="newNamee">
+      </div>
+      <div class="form-group">
+        <label>New Employee Type:</label><br>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="newUserType" id="userTypeEmployee" value="Employee">
+          <label class="form-check-label" for="userTypeEmployee">Employee</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="newUserType" id="userTypeAdmin" value="Admin">
+          <label class="form-check-label" for="userTypeAdmin">Admin</label>
+        </div>
+      </div>
+
+      <!-- Submit Buttons -->
+      <div class="form-group btn-center mt-3" style="display: flex; justify-content: space-around;">
+        <button type="submit" class="btn btn-secondary btn-block">Update Information</button>
+        <button type="submit" class="btn btn-danger" formaction="">Delete Employee</button>
+      </div>
+    </form>
+  </div>

@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="/css/curr_employee.css">
+
+<h1 class="page-title mt-5" style="text-align: center;"> Current Employee: <%= employee.name %> </h1>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+      <%- include('./partials/curr_employee/update_employee'); -%>  
+    </div>
+    <div class="col-md-6">
+      <div class="container mt-5">
+        <h2>Employees review list</h2>
+        <form>
+          <div class="form-group">
+            <%- include('./partials/curr_employee/remove_from_list'); -%>  
+          </div>
+          <div class="form-group">
+            <%- include('./partials/curr_employee/add_to_list'); -%>  
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -32,6 +32,7 @@ module.exports.create = async function(req, res) { //for creating an employee ac
         }
     } catch(err) {
         console.log("error", err);
+        return res.redirect('/');
     }
 }
 

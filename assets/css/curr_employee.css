@@ -1,0 +1,4 @@
+.form-check-input {
+    border: solid var(--secondary-theme-color) 2px;
+    box-sizing: border-box;
+}
