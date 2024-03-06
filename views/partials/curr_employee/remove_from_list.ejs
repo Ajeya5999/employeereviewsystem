@@ -11,16 +11,16 @@
             <strong> The List is Empty </strong>
           <% } else { %>
             <ul class="list-group">
-              <% for(employee of auth_list) { %>
+              <% for(listEmployee of auth_list) { %>
                 <li class="list-group-item">
-                  <input type="checkbox" class="custom-control-input" id="<%= employee.email %>">
-                  <label class="custom-control-label" for="checkbox1"><%= employee.email %></label>
+                  <input type="checkbox" class="custom-control-input" id="<%= listEmployee.email %>">
+                  <label class="custom-control-label" for="checkbox1"><%= listEmployee.email %></label>
                 </li>
               <% } %>
             </ul>
             <% if(employee.user_type !== "Admin") { %>
               <div class="form-group mt-3" style="text-align: center;">
-                <button type="submit" class="btn btn-danger" formaction="">Remove Employees from list</button>
+                <button type="submit" class="btn btn-danger" formaction="/dashboard/admin/remove_from_list/<%= employee._id %>">Remove Employees from list</button>
               </div>
             <% } %>
           <% } %>

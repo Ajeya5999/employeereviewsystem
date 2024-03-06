@@ -11,15 +11,15 @@
             <strong> The List is Empty </strong>
           <% } else { %>
             <ul class="list-group">
-              <% for(employee of non_auth_list) { %>
+              <% for(listEmployee of non_auth_list) { %>
                 <li class="list-group-item">
-                  <input type="checkbox" class="custom-control-input" id="<%= employee.email %>">
-                  <label class="custom-control-label" for="checkbox1"><%= employee.email %></label>
+                  <input type="checkbox" class="custom-control-input" id="<%= listEmployee.email %>" name="auth_list" value="<%= listEmployee._id %>">
+                  <label class="custom-control-label" for="checkbox1"><%= listEmployee.email %></label>
                 </li>
               <% } %>
             </ul>
             <div class="form-group mt-3" style="text-align: center;">
-              <button type="submit" class="btn btn-secondary btn-block" formaction="">Add Employees to list</button>
+              <button type="submit" class="btn btn-secondary btn-block" formaction="/dashboard/admin/add_to_list/<%= employee._id %>">Add Employees to list</button>
             </div>
           <% } %>
         </div>
