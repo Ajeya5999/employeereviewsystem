@@ -162,6 +162,7 @@ module.exports.deleteEmployee = async function(req, res) { //Deleting the select
 
 module.exports.addToList = async function(req, res) { //Adding other emmployees to current employee's auth list
     let authList = req.body.auth_list, employeeId = req.params.id;
+    if(typeof(authList) == 'string') authList = [authList];
     try {
         let userType = await User.findById(employeeId)
         .select('user_type')
@@ -178,6 +179,31 @@ module.exports.addToList = async function(req, res) { //Adding other emmployees 
                 }
             });
             req.flash('info', "Employees have been added to authorization list");
+        }
+        return res.redirect('back');
+    } catch(err) {
+        console.log('error', err);
+        return res.redirect('/');
+    }
+}
+
+module.exports.removeFromList = async function(req, res) { //Adding other emmployees to current employee's auth list
+    let authList = req.body.auth_list, employeeId = req.params.id;
+    if(typeof(authList) == 'string') authList = [authList];
+    try {
+        let userType = await User.findById(employeeId)
+        .select('user_type')
+        .exec()
+        .user_type;
+        if(userType === "Admin")
+            req.flash('error', "Cannot update authorization list for admins");
+        else {
+            await User.findByIdAndUpdate(employeeId, {
+                $pullAll: {
+                    auth_list: authList
+                }
+            });
+            req.flash('info', "Employees have been removed to authorization list");
         }
         return res.redirect('back');
     } catch(err) {

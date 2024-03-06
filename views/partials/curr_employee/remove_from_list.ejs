@@ -13,7 +13,7 @@
             <ul class="list-group">
               <% for(listEmployee of auth_list) { %>
                 <li class="list-group-item">
-                  <input type="checkbox" class="custom-control-input" id="<%= listEmployee.email %>">
+                  <input type="checkbox" class="custom-control-input" id="<%= listEmployee.email %>" name="auth_list" value="<%= listEmployee._id %>">
                   <label class="custom-control-label" for="checkbox1"><%= listEmployee.email %></label>
                 </li>
               <% } %>
