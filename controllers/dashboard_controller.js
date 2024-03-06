@@ -129,16 +129,32 @@ module.exports.showCurrentEmployee = async function(req, res) { //Show the selec
 module.exports.updateEmployee = async function(req, res) { //Updating the selected employee
     let employeeId = req.params.id, {name, user_type} = req.body;
     try {
+        let employee = await User.findById(employeeId)
+        .select('name user_type')
+        .exec();
         await User.findByIdAndUpdate(employeeId, {
             $set: {
-                name: name,
-                user_type: user_type
+                name: (name) ? name : employee.name,
+                user_type: (user_type) ? user_type : employee.user_type
             }
         });
         req.flash('info', "Given employee has been updated");
         return res.redirect('back');
     } catch(err) {
         console.log('error', err);
+        return res.redirect('/');
+    }
+}
+
+module.exports.deleteEmployee = async function(req, res) { //Deleting the selected employee
+    let employeeId = req.params.id;
+    try {
+        await Review.deleteMany({reviewee: employeeId});
+        await User.findByIdAndDelete(employeeId);
+        req.flash('info', "Employee has been removed");
+        return res.redirect('/dashboard/admin/employees');
+    } catch(err) {
+        console.log("error", err);
         return res.redirect('/');
     }
 }
