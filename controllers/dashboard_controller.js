@@ -125,3 +125,20 @@ module.exports.showCurrentEmployee = async function(req, res) { //Show the selec
         return res.redirect('/');
     }
 }
+
+module.exports.updateEmployee = async function(req, res) { //Updating the selected employee
+    let employeeId = req.params.id, {name, user_type} = req.body;
+    try {
+        await User.findByIdAndUpdate(employeeId, {
+            $set: {
+                name: name,
+                user_type: user_type
+            }
+        });
+        req.flash('info', "Given employee has been updated");
+        return res.redirect('back');
+    } catch(err) {
+        console.log('error', err);
+        return res.redirect('/');
+    }
+}
