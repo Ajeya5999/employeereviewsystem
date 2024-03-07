@@ -127,92 +127,7 @@ module.exports.showCurrentEmployee = async function(req, res) { //Show the selec
     }
 }
 
-module.exports.updateEmployee = async function(req, res) { //Updating the selected employee
-    let employeeId = req.params.id, {name, user_type} = req.body;
-    try {
-        let employee = await User.findById(employeeId)
-        .select('name user_type')
-        .exec();
-        await User.findByIdAndUpdate(employeeId, {
-            $set: {
-                name: (name) ? name : employee.name,
-                user_type: (user_type) ? user_type : employee.user_type
-            }
-        });
-        req.flash('info', "Given employee has been updated");
-        return res.redirect('back');
-    } catch(err) {
-        console.log('error', err);
-        return res.redirect('/');
-    }
-}
-
-module.exports.deleteEmployee = async function(req, res) { //Deleting the selected employee
-    let employeeId = req.params.id;
-    try {
-        await Review.deleteMany({reviewee: employeeId});
-        await User.findByIdAndDelete(employeeId);
-        req.flash('info', "Employee has been removed");
-        return res.redirect('/dashboard/admin/employees');
-    } catch(err) {
-        console.log("error", err);
-        return res.redirect('/');
-    }
-}
-
-module.exports.addToList = async function(req, res) { //Adding other emmployees to current employee's auth list
-    let authList = req.body.auth_list, employeeId = req.params.id;
-    if(typeof(authList) == 'string') authList = [authList];
-    try {
-        let userType = await User.findById(employeeId)
-        .select('user_type')
-        .exec()
-        .user_type;
-        if(userType === "Admin")
-            req.flash('error', "Cannot update authorization list for admins");
-        else {
-            await User.findByIdAndUpdate(employeeId, {
-                $push: {
-                    auth_list: {
-                        $each: authList
-                    }
-                }
-            });
-            req.flash('info', "Employees have been added to authorization list");
-        }
-        return res.redirect('back');
-    } catch(err) {
-        console.log('error', err);
-        return res.redirect('/');
-    }
-}
-
-module.exports.removeFromList = async function(req, res) { //Adding other emmployees to current employee's auth list
-    let authList = req.body.auth_list, employeeId = req.params.id;
-    if(typeof(authList) == 'string') authList = [authList];
-    try {
-        let userType = await User.findById(employeeId)
-        .select('user_type')
-        .exec()
-        .user_type;
-        if(userType === "Admin")
-            req.flash('error', "Cannot update authorization list for admins");
-        else {
-            await User.findByIdAndUpdate(employeeId, {
-                $pullAll: {
-                    auth_list: authList
-                }
-            });
-            req.flash('info', "Employees have been removed to authorization list");
-        }
-        return res.redirect('back');
-    } catch(err) {
-        console.log('error', err);
-        return res.redirect('/');
-    }
-}
-
-module.exports.showReviews = async function(req, res) {
+module.exports.showReviews = async function(req, res) { //Get the list of reviews
     try {
         let reviews = await Review.find({})
         .populate('reviewer', '_id name email')
@@ -222,34 +137,6 @@ module.exports.showReviews = async function(req, res) {
             title: 'Reviews',
             review_list: reviews
         });
-    } catch(err) {
-        console.log('error', err);
-        return res.redirect('/');
-    }
-}
-
-module.exports.updateReview = async function(req, res) {
-    let reviewId = req.params.id, review = req.body.review;
-    try {
-        await Review.findByIdAndUpdate(reviewId, {
-            $set: {
-                review: review              
-            }
-        });
-        req.flash('info', 'Review has been updated');
-        return res.redirect('back');
-    } catch(err) {
-        console.log('error', err);
-        return res.redirect('/');
-    }
-}
-
-module.exports.deleteReview = async function(req, res) {
-    let reviewId = req.params.id;
-    try {
-        await Review.findByIdAndDelete(reviewId);
-        req.flash('info', "Review has been deleted");
-        return res.redirect('back');
     } catch(err) {
         console.log('error', err);
         return res.redirect('/');
