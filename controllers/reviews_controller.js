@@ -2,7 +2,7 @@ const Review = require('../models/review') //Getting reviews schema
 
 module.exports.addReview = async function(req, res) {
     let {revieweeId, review} = req.body, reviewerId = req.user._id;
-    if(revieweeId.equals(reviewerId)) {
+    if(revieweeId == reviewerId) {
         req.flash('error', "You cannnot enter your own review");
         return res.redirect('back');
     }

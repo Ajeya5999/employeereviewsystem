@@ -23,8 +23,10 @@ module.exports.home = async function(req, res) { //Get thee home page to write r
 
         //Revmove the logged in user from the list as a user should not be able to review themself
 
-        let userIndex = authList.findIndex(employee => {return employee._id.equals(req.user._id);});
-        if(userIndex !== -1) authList.splice(userIndex, 1);
+        if(authList.length) {
+            let userIndex = authList.findIndex(employee => {return employee._id.equals(req.user._id);});
+            if(userIndex !== -1) authList.splice(userIndex, 1);
+        }
 
         //Pair written reviews with the authorized list, returns blank string if no review was written
 

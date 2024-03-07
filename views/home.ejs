@@ -9,8 +9,10 @@
                     <label for="dropdown">Choose an Employee:</label>
                     <select name="revieweeId" class="form-control" id="dropdown" required>
                         <option disabled selected value> -- select an email -- </option>
-                        <% for (user of auth_users) { %>
-                            <option value="<%= user._id %>" class="dropdown-options" option-review="<%= user.review %>">  <%= user.email %> </option>
+                        <% if(auth_users.length) { %> 
+                            <% for (user of auth_users) { %>
+                                <option value="<%= user._id %>" class="dropdown-options" option-review="<%= user.review %>">  <%= user.email %> </option>
+                            <% } %>
                         <% } %>
                     </select>
                 </div>
