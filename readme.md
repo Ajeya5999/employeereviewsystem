@@ -39,7 +39,8 @@ To run this application locally, follow these steps:
 
         ```plaintext
         PORT=3000
-        DB_CONNECTION_STRING=your_database_connection_string
+        MONGODB_LINK=your_database_connection_string
+        CONNECTMONGO_SESSION_LINK=your_database_connection_string
         ```
 
 5. Run the application:
