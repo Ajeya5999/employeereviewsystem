@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="/css/reviews.css">
+
+<h1 class="page-title mt-5 mb-3" style="text-align: center;"> Reviews List </h1>
+
+<table class="review-list">
+    <tr>
+        <th> Reviewer </th>
+        <th> Reviewee </th>
+        <th> Review </th>
+    </tr>
+    <% for(review of review_list) { %>
+        <form method="post">
+            <tr>
+                <td> <%= review.reviewer.email %> </td>
+                <td> <%= review.reviewee.email %> </td>
+                <td style="overflow: visible; display: flex; justify-content: space-evenly;"> 
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-secondary" formaction="/dashboard/admin/update_review/<%= review._id %>">Update Review</button>
+                        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>                    
+                        </button>
+                        <ul class="dropdown-menu" style="width: 200%;">
+                            <textarea rows="6" style="resize: none; width: 80%; margin: 0 10%;" name="review"><%= review.review %></textarea>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-danger" formaction="/dashboard/admin/delete_review/<%= review._id %>">Delete Review</button>
+                    </div>
+                </td>
+            </tr>
+        </form>
+    <% } %>
+</table>

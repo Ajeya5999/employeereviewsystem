@@ -211,3 +211,47 @@ module.exports.removeFromList = async function(req, res) { //Adding other emmplo
         return res.redirect('/');
     }
 }
+
+module.exports.showReviews = async function(req, res) {
+    try {
+        let reviews = await Review.find({})
+        .populate('reviewer', '_id name email')
+        .populate('reviewee', '_id name email')
+        .exec();
+        return res.render('reviews', {
+            title: 'Reviews',
+            review_list: reviews
+        });
+    } catch(err) {
+        console.log('error', err);
+        return res.redirect('/');
+    }
+}
+
+module.exports.updateReview = async function(req, res) {
+    let reviewId = req.params.id, review = req.body.review;
+    try {
+        await Review.findByIdAndUpdate(reviewId, {
+            $set: {
+                review: review              
+            }
+        });
+        req.flash('info', 'Review has been updated');
+        return res.redirect('back');
+    } catch(err) {
+        console.log('error', err);
+        return res.redirect('/');
+    }
+}
+
+module.exports.deleteReview = async function(req, res) {
+    let reviewId = req.params.id;
+    try {
+        await Review.findByIdAndDelete(reviewId);
+        req.flash('info', "Review has been deleted");
+        return res.redirect('back');
+    } catch(err) {
+        console.log('error', err);
+        return res.redirect('/');
+    }
+}

@@ -15,5 +15,8 @@ router.post('/update_employee/:id', dashboardController.updateEmployee); //Updat
 router.post('/delete_employee/:id', dashboardController.deleteEmployee); //Delete the Employee
 router.post('/add_to_list/:id', dashboardController.addToList); //Add Employees to Employee's Auth List
 router.post('/remove_from_list/:id', dashboardController.removeFromList); //Remove Employees to Employee's Auth List
+router.get('/reviews', dashboardController.showReviews); //Get review list
+router.post('/update_review/:id', dashboardController.updateReview); //Update review
+router.post('/delete_review/:id', dashboardController.deleteReview) //Delete review
 
 module.exports = router;

@@ -1,0 +1,11 @@
+.review-list {
+    width: 95vw;
+    margin: 0 2vw;
+}
+
+th, td {
+    border: solid var(--secondary-theme-color) 1px;
+    text-align: center;
+    overflow: hidden;
+    padding: 1vh 0;
+}

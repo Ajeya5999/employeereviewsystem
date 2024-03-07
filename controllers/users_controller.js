@@ -43,7 +43,7 @@ module.exports.signIn = function(req, res) { //for rendering sign in page
             layout: './layouts/auth'
         });
     }
-    return res.redirect('/dashboard');
+    return res.redirect('/dashboard/home');
 }
 
 module.exports.createSession = function(req, res){  //for signing in to the web app
