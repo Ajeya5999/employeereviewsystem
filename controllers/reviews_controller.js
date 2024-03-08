@@ -52,3 +52,15 @@ module.exports.deleteReview = async function(req, res) { //Delete the selected r
         return res.redirect('/');
     }
 }
+
+module.exports.getAllReviews = async function(req, res) { //Getting all reviews as json
+    try {
+        const reviews = await Review.find({reviewer: req.user._id})
+        .select('reviewee review')
+        .exec();
+        res.status(200).json(reviews);
+      } catch (err) {
+        console.log('error', err);
+        res.status(500).json({ message: err.message });
+      }
+}

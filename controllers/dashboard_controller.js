@@ -3,16 +3,10 @@ const Review = require('../models/review'); //Getting review schema
 
 module.exports.home = async function(req, res) { //Get thee home page to write reviews
     try {
-
-        //Get all the reviews the current employee has written
-
-        let reviewList = await Review.find({reviewer: req.user._id})
-        .select('reviewee review')
-        .exec(),
         
         //Get the list of list of employees authorised to the current employee for writing reviews
         
-        authList = (req.user.user_type == "Admin") ? //If the employee is an admin 
+        let authList = (req.user.user_type == "Admin") ? //If the employee is an admin 
         await User.find({})
         .select('_id email')
         .exec() : // Get all employees
@@ -27,25 +21,7 @@ module.exports.home = async function(req, res) { //Get thee home page to write r
             let userIndex = authList.findIndex(employee => {return employee._id.equals(req.user._id);});
             if(userIndex !== -1) authList.splice(userIndex, 1);
         }
-
-        //Pair written reviews with the authorized list, returns blank string if no review was written
-
-        for(let iterator1 = 0; iterator1 < authList.length; iterator1++) {
-            let currReview = "";
-            for(let iterator2 = 0; iterator2 < reviewList.length; iterator2++) {
-                if(authList[iterator1]._id.equals(reviewList[iterator2].reviewee)) {
-                    currReview = reviewList[iterator2].review;
-                    break;
-                }
-            }
-            var newObject = {
-                _id: authList[iterator1]._id,
-                email: authList[iterator1].email,
-                review: currReview
-            }
-            authList[iterator1] = newObject; 
-        }
-
+        
         //Render the page
 
         return res.render('home', {

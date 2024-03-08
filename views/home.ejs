@@ -11,7 +11,7 @@
                         <option disabled selected value> -- select an email -- </option>
                         <% if(auth_users.length) { %> 
                             <% for (user of auth_users) { %>
-                                <option value="<%= user._id %>" class="dropdown-options" option-review="<%= user.review %>">  <%= user.email %> </option>
+                                <option value="<%= user._id %>" class="dropdown-options"> <%= user.email %> </option>
                             <% } %>
                         <% } %>
                     </select>
