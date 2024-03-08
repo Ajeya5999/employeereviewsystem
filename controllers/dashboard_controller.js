@@ -6,14 +6,18 @@ module.exports.home = async function(req, res) { //Get thee home page to write r
         
         //Get the list of list of employees authorised to the current employee for writing reviews
         
-        let authList = (req.user.user_type == "Admin") ? //If the employee is an admin 
-        await User.find({})
-        .select('_id email')
-        .exec() : // Get all employees
-        await User.findById(req.user._id)
-        .select('auth_list').
-        populate('auth_list', 'email')
-        .exec(); // Get employees only from the authorised list
+        let authList; 
+        if (req.user.user_type == "Admin") { //If the employee is an admin 
+            authList = await User.find({})
+            .select('_id email')
+            .exec() // Get all employees
+        } else {  
+            const temp = await User.findById(req.user._id)
+            .select('auth_list')
+            .populate('auth_list', 'email')
+            .exec(); 
+            authList = temp.auth_list; // Get employees only from the authorised list
+        }
 
         //Revmove the logged in user from the list as a user should not be able to review themself
 
